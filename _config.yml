@@ -1,0 +1,5 @@
+theme: minima
+title: Video Representation Learning by Recognizing Temporal Transformations
+author: Simon Jenni, Givi Meishvili, Paolo Favaro
+email: simon.jenni@inf.unibe.ch
+description: This is the project page for our ECCV2020 paper titled "Video Representation Learning by Recognizing Temporal Transformations"
