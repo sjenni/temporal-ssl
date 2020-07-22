@@ -8,7 +8,7 @@
 
 
 <p align="center">
-  <a href="" style="font-size: 21px; text-decoration: none">[Arxiv]</a>
+  <a href="https://arxiv.org/pdf/2007.10730.pdf" style="font-size: 21px; text-decoration: none">[Arxiv]</a>
   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  
   <a href="https://github.com/sjenni/temporal-ssl" style="font-size: 21px; text-decoration: none">[GitHub]</a> 
 </p>
