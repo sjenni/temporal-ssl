@@ -15,6 +15,7 @@ The code is based on Python 3.7 and tensorflow 1.15.
 
 ### 1. Setup
 
+- Dowload [UCF101](https://www.crcv.ucf.edu/data/UCF101.php) and [HMDB51](https://serre-lab.clps.brown.edu/resource/hmdb-a-large-human-motion-database/).
 - Set the paths to the data and log directories in [constants.py](constants.py).
 - Run [init_datasets.py](init_datasets.py) to  convert the UCF101 and HMDB datasets to the TFRecord format:
 ```
