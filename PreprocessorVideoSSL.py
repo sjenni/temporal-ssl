@@ -16,8 +16,7 @@ class PreprocessorTransform:
         self.augment_color = augment_color
         self.rand_grey = rand_grey
         self.load_shape = (seq_length,) + src_shape + (3,)
-        self.out_shape = (len(self.transforms) + 1, seq_length) + resize_shape + (3,)
-        self.test_sequence = 'middle'  # Can be 'middle' or 'random'
+        self.out_shape = (len(self.transforms) + 1, seq_length) + crop_size + (3,)
 
     def color_scale_vid(self, vid):
         vid = tf.cast(vid, tf.float32) / 255.
@@ -99,7 +98,7 @@ class PreprocessorTransform:
             vid_warp.set_shape(self.load_shape)
             vids_transformed.append(vid_warp)
 
-        vids_transformed = [self.resize(self.color_scale_vid(v)) for v in vids_transformed]
+        vids_transformed = [self.resize_crop(self.color_scale_vid(v)) for v in vids_transformed]
         vids_transformed = tf.stack(vids_transformed)
 
         return vids_transformed, speed_label, example
@@ -130,25 +129,17 @@ class PreprocessorTransform:
 
     def random_crop(self, vid):
         in_sz = vid.get_shape().as_list()
-        return tf.image.random_crop(vid, [in_sz[0], in_sz[1], in_sz[2], self.crop_size[0], self.crop_size[1], in_sz[-1]])
+        return tf.image.random_crop(vid, [in_sz[0], self.crop_size[0], self.crop_size[1], in_sz[-1]])
 
-    def center_crop(self, vid):
-        in_sz = vid.get_shape().as_list()
-        dh = tf.cast(tf.round((in_sz[2] - self.crop_size[0]) / 2), tf.int64)
-        dw = tf.cast(tf.round((in_sz[3] - self.crop_size[1]) / 2), tf.int64)
-        cropped_vid = vid[:, :, dh:dh + self.crop_size[0], dw:dw + self.crop_size[1], :]
-        return cropped_vid
-
-    def resize(self, vid):
+    def resize_crop(self, vid):
         if not self.resize_shape == self.src_shape:
             resized_video = tf.compat.v1.image.resize_bilinear(vid, self.resize_shape)
-            return resized_video
+            return self.random_crop(resized_video)
         else:
-            return vid
+            return self.random_crop(vid)
 
     def augment_train(self, video):
         video = self.flip_lr(video)
-        video = self.random_crop(video)
         return video
 
 
